@@ -32,14 +32,6 @@ public class CubeSpawner : MonoBehaviour
         _spawnBounds = new Bounds(center, size);
     }
 
-    private void OnDrawGizmos()
-    {
-        if (_platform == null) return;
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(_spawnBounds.center, _spawnBounds.size);
-    }
-
     private Vector3 GetRandomSpawnPoint()
     {
         float x = Random.Range(_spawnBounds.min.x, _spawnBounds.max.x);

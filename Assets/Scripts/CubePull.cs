@@ -7,16 +7,13 @@ public class CubePull : MonoBehaviour
 
     private List<Cube> _pool = new List<Cube>();
 
-    public Cube GetFree()
-    {
-        return (TryGetCube(out Cube cube)) ? cube : Create();
-    }
+    public Cube GetFree() => (TryGetCube(out Cube cube)) ? cube : Create();
 
     private bool TryGetCube(out Cube cube)
     {
         foreach (var item in _pool)
         {
-            if (!item.gameObject.activeInHierarchy)
+            if (item.gameObject.activeInHierarchy == false)
             {
                 cube = item;
                 cube.gameObject.SetActive(true);
