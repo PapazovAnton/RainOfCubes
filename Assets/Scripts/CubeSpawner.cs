@@ -7,6 +7,7 @@ public class CubeSpawner : MonoBehaviour
 {
     [SerializeField] private Platform _platform;
     [SerializeField] private float _heightOffset = 7f;
+    [SerializeField] private float _delay = 2f;
 
     private CubePull _pool;
     private Bounds _spawnBounds;
@@ -24,10 +25,12 @@ public class CubeSpawner : MonoBehaviour
 
     private void CalculateZone()
     {
+        int divisor = 2;
+
         Renderer renderer = _platform.GetComponent<Renderer>();
 
         Vector3 size = renderer.bounds.size;
-        Vector3 center = renderer.bounds.center + Vector3.up * (size.y / 2 + _heightOffset);
+        Vector3 center = renderer.bounds.center + Vector3.up * (size.y / divisor + _heightOffset);
 
         _spawnBounds = new Bounds(center, size);
     }
@@ -42,14 +45,16 @@ public class CubeSpawner : MonoBehaviour
 
     private IEnumerator GenerateRainCoroutine()
     {
+        var wait = new WaitForSeconds(_delay);
+
         while (true)
         {
-            GenerateRain();
-            yield return new WaitForSeconds(2f);
+            GenerateCube();
+            yield return wait;
         }
     }
 
-    private void GenerateRain()
+    private void GenerateCube()
     {
         Cube cube = _pool.GetFree();
         cube.transform.position = GetRandomSpawnPoint();

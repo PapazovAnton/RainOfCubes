@@ -21,10 +21,13 @@ public class Cube : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.AddComponent<Platform>() && _isChangeColor == false)
+        if (_isChangeColor == false)
         {
-            ChangeColor();
-            StartCoroutine(DestroyWithDelay());
+            if (collision.gameObject.GetComponent<Platform>())
+            {
+                ChangeColor();
+                StartCoroutine(DestroyWithDelay());
+            }
         }
     }
 
@@ -41,7 +44,7 @@ public class Cube : MonoBehaviour
         _objectRenderer.material.color = _dafaultColor;
     }
 
-    IEnumerator DestroyWithDelay()
+    private IEnumerator DestroyWithDelay()
     {
         float delay = Random.Range(_minLifeTime, _maxLifeTime);
         yield return new WaitForSeconds(delay);
